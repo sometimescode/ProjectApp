@@ -1,19 +1,10 @@
 package project.app.model;
 
 public class Account {
-    private int id;
     private String username;
     private String password;
     
     public Account() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -34,6 +25,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account [id=" + id + ", password=" + password + ", username=" + username + "]";
+        return "Account [password=" + password + ", username=" + username + "]";
     }
 }
