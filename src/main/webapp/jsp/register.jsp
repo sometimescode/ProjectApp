@@ -27,6 +27,9 @@
             <s:textfield name="userBean.contactNumber" label="Contact Number"/>
             <s:submit/>
         </s:form>
+        HERE'S USERBEAN's PARENT!
+        Username: <s:property value="userBean.username"/>
+        Password: <s:property value="userBean.password"/>
     </div>
     
     <!-- Bootstrap Bundle with Popper -->
