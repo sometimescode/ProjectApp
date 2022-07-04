@@ -6,6 +6,8 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import project.app.service.SessionService;
+
 public class AdminPanel extends ActionSupport implements SessionAware {
     private Map<String, Object> userSession;
 
@@ -13,11 +15,11 @@ public class AdminPanel extends ActionSupport implements SessionAware {
         String role = (String) userSession.get("role");
 
         System.out.println("role = " + role);
-        if(role != "Admin")
-         {
-            return ERROR;
+
+        if(SessionService.isAdmin(role)) {
+            return SUCCESS;
         } else {
-            return SUCCESS;   
+            return ERROR;
         }
     }
 

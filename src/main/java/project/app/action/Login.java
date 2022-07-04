@@ -9,7 +9,8 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import project.app.model.Account;
 import project.app.model.UserSession;
-import project.service.DBHelper;
+import project.app.service.DBService;
+import project.app.service.SessionService;
 
 public class Login extends ActionSupport implements SessionAware {
     private Account accountBean;
@@ -32,10 +33,17 @@ public class Login extends ActionSupport implements SessionAware {
         UserSession userSessionData;
 
         try {
-            userSessionData = DBHelper.verifyCredentials(accountBean);
+            userSessionData = DBService.verifyCredentials(accountBean);
             if(userSessionData != null) {
                 updateSession(userSessionData);
-                return SUCCESS;
+                
+                String role = (String) userSession.get("role");
+
+                if(SessionService.isAdmin(role)) {
+                    return "admin";
+                } else {
+                    return "regular";
+                }
             } else {
                 validationString = "Invalid username or password. Please try again.";
                 return INPUT;

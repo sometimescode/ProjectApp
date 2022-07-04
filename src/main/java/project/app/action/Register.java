@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import com.opensymphony.xwork2.ActionSupport;
 
 import project.app.model.User;
-import project.service.DBHelper;
+import project.app.service.DBService;
 
 public class Register extends ActionSupport {
     private User userBean;
@@ -17,11 +17,11 @@ public class Register extends ActionSupport {
 
     public String registerUser() {
         try {
-            if(DBHelper.registerUser(userBean)) {
+            if(DBService.registerUser(userBean)) {
                 return SUCCESS;
             }
             else {
-                error = DBHelper.getError();
+                error = DBService.getError();
                 return ERROR;
             }
         } catch (SQLException e) {

@@ -1,4 +1,4 @@
-package project.service;
+package project.app.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,13 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.opensymphony.xwork2.util.finder.UrlSet;
-
 import project.app.model.Account;
 import project.app.model.User;
 import project.app.model.UserSession;
 
-public class DBHelper {
+public class DBService {
     private static String error;
 
     private static Connection connectToDB() throws ClassNotFoundException, SQLException {

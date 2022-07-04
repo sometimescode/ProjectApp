@@ -7,40 +7,67 @@
 
     <constant name="struts.devMode" value="true" />
 
-    <package name="app" extends="struts-default">
+    <package name="app" namespace="/" extends="struts-default">
         <action name="index">
-            <result>/index.jsp</result>
+            <result>index.jsp</result>
         </action>
         
         <action name="register" class="project.app.action.Register" method="execute">
-            <result name="success">/jsp/register.jsp</result>
+            <result name="success">pages/register.jsp</result>
         </action>
 
         <action name="registerUser" class="project.app.action.Register" method="registerUser">
-            <result name="success">/jsp/register.jsp</result>
-            <result name="input">/jsp/register.jsp</result>
-            <result name="error">/jsp/error.jsp</result>
+            <result name="success">pages/register.jsp</result>
+            <result name="input">pages/register.jsp</result>
+            <result name="error">pages/error.jsp</result>
         </action>
 
         <action name="login" class="project.app.action.Login" method="execute">
-            <result name="success">/jsp/login.jsp</result>
+            <result name="success">pages/login.jsp</result>
         </action>
 
         <action name="loginAccount" class="project.app.action.Login" method="loginAccount">
-            <result name="success">/jsp/catalog.jsp</result>
-            <result name="input">/jsp/login.jsp</result>
-            <result name="error">/jsp/error.jsp</result>
+            <result name="regular" type="redirectAction">catalog</result>
+            <result name="admin" type="redirectAction">
+                <param name="actionName">dashboard</param>
+                <param name="namespace">/admin</param>
+            </result>
+            <result name="input">pages/login.jsp</result>
+            <result name="error">pages/error.jsp</result>
         </action>
 
         <action name="catalog" class="project.app.action.Catalog" method="execute">
-            <result name="success">/jsp/catalog.jsp</result>
+            <result name="success">pages/catalog.jsp</result>
         </action>
+
+        <action name="testBed" class="project.app.action.TestBed">
+			<result name="success">pages/testBed.jsp</result>
+		</action>
     </package>
 
     <package name="admin" namespace="/admin" extends="struts-default">
-		<action name="adminPanel" class="project.app.action.AdminPanel">
-			<result name="success">/jsp/adminPanel.jsp</result>
-            <result name="error">/index.jsp</result>
+		<action name="dashboard" class="project.app.action.AdminPanel">
+			<result name="success">pages/dashboard.jsp</result>
+            <result name="error" type="redirectAction">
+                <param name="actionName">index</param>
+                <param name="namespace">/</param>
+            </result>
+		</action>
+
+        <action name="manageBooks" class="project.app.action.ManageBooks">
+			<result name="success">pages/books.jsp</result>
+            <result name="error" type="redirectAction">
+                <param name="actionName">index</param>
+                <param name="namespace">/</param>
+            </result>
+		</action>
+
+        <action name="searchBook" class="project.app.action.ManageBooks" method="searchBook">
+			<result name="success">pages/books.jsp</result>
+            <result name="error" type="redirect">
+                <param name="namespace">/</param>
+                <param name="location">pages/error.jsp</param>
+            </result>
 		</action>
 	</package>
 

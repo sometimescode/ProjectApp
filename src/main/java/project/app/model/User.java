@@ -44,6 +44,6 @@ public class User extends Account {
     @Override
     public String toString() {
         return "User [contactNumber=" + contactNumber + ", email=" + email + ", firstName=" + firstName + ", lastName="
-                + lastName + "]" + "\nFrom Parent Account [id=" + super.getId() + ", password=" + super.getPassword() + ", username=" + super.getUsername() + "]";
+                + lastName + "]" + "\nFrom Parent Account [password=" + super.getPassword() + ", username=" + super.getUsername() + "]";
     }
 }
