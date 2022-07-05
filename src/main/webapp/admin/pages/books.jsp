@@ -27,14 +27,13 @@
     
     <s:form action="addBook">
       <s:textfield name="bookEntryBean.title" label="Title"/>
-      <s:select name="bookEntryBean.authors" label="Author" value="bookEntryBean.authors" list="names" multiple="true" size="3" />
-      <s:textfield name="bookEntryBean.authors" label="Author"/> 
-      <s:textfield name="bookEntryBean.ISBN" label="ISBN"/> 
+      <s:select name="bookEntryBean.authors" label="Author" value="bookEntryBean.authors" list="authorList" multiple="true" size="3" />
+      <s:textfield name="bookEntryBean.ISBN" label="ISBN" disabled="true"/> 
       <s:textfield name="bookEntryBean.pageCount" label="Page Count"/> 
       <s:textfield name="bookEntryBean.publisher" label="Publisher"/> 
       <s:textfield name="bookEntryBean.publishedDate" label="Published Date"/> 
       <s:textfield name="bookEntryBean.cover" label="Cover"/> 
-      <s:submit value="Search"/>
+      <s:submit value="Add"/>
     </s:form>
 
     <!-- Bootstrap Bundle with Popper -->

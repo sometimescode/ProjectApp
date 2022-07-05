@@ -25,3 +25,60 @@ PRIMARY KEY (id)
 
 -- insert into account_roles (title) values ('Regular'), ('Admin');
 
+-- testbed code
+use app;
+create table testbed (
+id int not null auto_increment,
+multipleSelect VARCHAR(100) not null,
+img BLOB,
+PRIMARY KEY (id)
+);
+-- testbed code
+
+create table book_entries (
+id int not null auto_increment,
+title VARCHAR(100) not null,
+authors VARCHAR(500) not null,
+cover BLOB,
+ISBN VARCHAR(13) not null,
+page_count INT not null,
+publisher VARCHAR(100) not null,
+published_date DATE not null, 
+copies INT not null default 0,
+available_copies INT not null default 0,
+PRIMARY KEY (id)
+);
+-- ff fields not found in javascript model yeT: 
+-- copies INT not null default 0,
+-- available_copies INT not null default 0
+
+create table book_copies (
+id int not null auto_increment,
+book_entry_id int not null,
+checkout_record_id int not null,
+checked_out BOOLEAN default false,
+purchase_price int not null,
+available BOOLEAN default true,
+PRIMARY KEY (id),
+FOREIGN KEY(book_entry_id) references book_entries(id)
+);
+
+create table checkout_records (
+id int not null auto_increment,
+book_copy_id int not null,
+borrower_id int not null,
+checkout_date DATE not null,
+expected_return_date DATE not null,
+actual_return_date DATE,
+checkout_status ENUM('Checked Out', 'Checked In', 'Renewed', 'Lost') not null default 'Checked Out',
+renewed_count INT not null default 0,
+late_return BOOLEAN,
+damaged_return BOOLEAN,
+fine_status ENUM('Paid', 'Unpaid'),
+fine INT,
+record_notes VARCHAR(500),
+PRIMARY KEY (id),
+FOREIGN KEY(book_copy_id) references book_copies(id)
+);
+
+

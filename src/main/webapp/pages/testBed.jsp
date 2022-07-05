@@ -20,6 +20,19 @@
         <s:submit/>
     </s:form>
 
+    <s:form action="imgUpload" method="post" enctype="multipart/form-data">
+      <s:select name="select" label="Selecterino" value="%{'Jeeves'}" list="names" multiple="true" size="3" />
+      <s:file name="upload" label="File"/>
+      <s:submit/>
+    </s:form>
+
+    <s:property value="base64Cover"/>
+    <s:form action="getImg">
+      <s:submit/>
+    </s:form>
+    IMAGE:
+    <img src="data:image/jpg;base64,${base64Cover}" alt="images Here"/>
+
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>

@@ -1,8 +1,10 @@
 package project.app.model;
 
+import java.util.Arrays;
+
 public class BookEntry {
     private String title;
-    private String authors;
+    private String[] authors;
     private String cover;
     private String ISBN;
     private int pageCount;
@@ -15,12 +17,7 @@ public class BookEntry {
     public void setTitle(String title) {
         this.title = title;
     }
-    public String getAuthors() {
-        return authors;
-    }
-    public void setAuthors(String author) {
-        this.authors = author;
-    }
+
     public String getCover() {
         return cover;
     }
@@ -51,9 +48,17 @@ public class BookEntry {
     public void setPublishedDate(String publishedDate) {
         this.publishedDate = publishedDate;
     }
+    public String[] getAuthors() {
+        return authors;
+    }
+    public void setAuthors(String[] authors) {
+        this.authors = authors;
+    }
     @Override
     public String toString() {
-        return "BookEntry [ISBN=" + ISBN + ", authors=" + authors + ", cover=" + cover + ", pageCount=" + pageCount
-                + ", publishedDate=" + publishedDate + ", publisher=" + publisher + ", title=" + title + "]";
+        return "BookEntry [ISBN=" + ISBN + ", authors=" + Arrays.toString(authors) + ", cover=" + cover + ", pageCount="
+                + pageCount + ", publishedDate=" + publishedDate + ", publisher=" + publisher + ", title=" + title
+                + "]";
     }
+    
 }

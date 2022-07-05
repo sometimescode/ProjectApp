@@ -21,7 +21,7 @@ public class ManageBooks extends ActionSupport implements SessionAware {
     private ISBNResponse ISBNResponseBean;
     private String error;
 
-    private String[] authorList;
+    private List<String> authorList;
 
     public String execute() {
         String role = (String) userSession.get("role");
@@ -34,13 +34,32 @@ public class ManageBooks extends ActionSupport implements SessionAware {
     }
 
     private void populateFieldSuggestions() {
+        int authorCount = ISBNResponseBean.getAuthors().length;
+        String[] authorNames = new String[authorCount];
+
+        //needs to be initialized because it is not a part of the form with searchBook action
+        bookEntryBean = new BookEntry();
+
         bookEntryBean.setTitle(ISBNResponseBean.getTitle());
+
+        for(int x = 0; x < authorCount; x++) {
+            authorNames[x] = ISBNResponseBean.getAuthors()[x].getName();
+        }
+        authorList = Arrays.asList(authorNames);
+        bookEntryBean.setAuthors(authorNames);
+
+        bookEntryBean.setISBN(queryISBN);
+        bookEntryBean.setPageCount(ISBNResponseBean.getNumber_of_pages());
+        bookEntryBean.setPublisher(ISBNResponseBean.getPublishers()[0].getName());
+        bookEntryBean.setPublishedDate(ISBNResponseBean.getPublish_date());
+        bookEntryBean.setCover(ISBNResponseBean.getCover().getMedium());
 
     }
 
     public String searchBook() {
         try {
             ISBNResponseBean = OpenLibraryAPIService.searchISBNAPI(queryISBN);
+            populateFieldSuggestions();
             return SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,12 +80,11 @@ public class ManageBooks extends ActionSupport implements SessionAware {
         this.queryISBN = queryISBN;
     }
 
-    
     public List<String> getAuthorList() {
-        return Arrays.asList(bookEntryBean.getAuthors());
+        return authorList;
     }
 
-    public void setAuthorList(String[] authorList) {
+    public void setAuthorList(List<String> authorList) {
         this.authorList = authorList;
     }
 

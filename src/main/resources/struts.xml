@@ -43,6 +43,16 @@
         <action name="testBed" class="project.app.action.TestBed">
 			<result name="success">pages/testBed.jsp</result>
 		</action>
+
+        <action name="imgUpload" class="project.app.action.TestBed" method="imgUpload">
+			<result name="success">pages/testBed.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="getImg" class="project.app.action.TestBed" method="getImg">
+			<result name="success">pages/testBed.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
     </package>
 
     <package name="admin" namespace="/admin" extends="struts-default">
@@ -64,10 +74,7 @@
 
         <action name="searchBook" class="project.app.action.ManageBooks" method="searchBook">
 			<result name="success">pages/books.jsp</result>
-            <result name="error" type="redirect">
-                <param name="namespace">/</param>
-                <param name="location">pages/error.jsp</param>
-            </result>
+            <result name="error">pages/error.jsp</result>
 		</action>
 	</package>
 

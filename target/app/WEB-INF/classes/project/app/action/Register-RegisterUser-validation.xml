@@ -1,0 +1,64 @@
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+    "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+  <validator type="requiredstring">
+    <param name="fieldName">userBean.username</param>
+    <message>Username is required.</message>
+  </validator>
+  <validator type="stringlength">
+    <param name="fieldName">userBean.username</param>
+    <param name="minLength">4</param>
+    <param name="maxLength">20</param>
+    <message>Username must be 4 to 20 characters long.</message>
+  </validator>
+
+  <validator type="requiredstring">
+    <param name="fieldName">userBean.password</param>
+    <message>Password is required.</message>
+  </validator>
+  <validator type="stringlength">
+    <param name="fieldName">userBean.password</param>
+    <param name="minLength">8</param>
+    <param name="maxLength">20</param>
+    <message>Password must be 8 to 20 characters long.</message>
+  </validator> 
+
+  <validator type="requiredstring">
+    <param name="fieldName">userBean.firstName</param>
+    <message>First name is required.</message>
+  </validator>
+  <validator type="stringlength">
+    <param name="fieldName">userBean.firstName</param>
+    <param name="maxLength">50</param>
+    <message>First name must not exceed 50 characters.</message>
+  </validator>
+
+  <validator type="requiredstring">
+    <param name="fieldName">userBean.lastName</param>
+    <message>Last name is required.</message>
+  </validator>
+  <validator type="stringlength">
+    <param name="fieldName">userBean.lastName</param>
+    <param name="maxLength">50</param>
+    <message>Last name must not exceed 50 characters.</message>
+  </validator> 
+
+  <validator type="requiredstring">
+    <param name="fieldName">userBean.email</param>
+    <message>Email address is required.</message>
+  </validator>
+  <validator type="email">
+    <param name="fieldName">userBean.email</param>
+    <message>Email address not valid.</message>
+  </validator>
+
+   <validator type="requiredstring">
+    <param name="fieldName">userBean.contactNumber</param>
+    <message>Contact number is required.</message>
+  </validator> 
+  <validator type="stringlength">
+    <param name="fieldName">userBean.contactNumber</param>
+    <param name="maxLength">20</param>
+    <message>Contact number must not exceed 20 characters.</message>
+  </validator>   
+</validators>
