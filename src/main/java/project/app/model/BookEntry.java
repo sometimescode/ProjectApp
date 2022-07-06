@@ -3,6 +3,7 @@ package project.app.model;
 import java.util.Arrays;
 
 public class BookEntry {
+    private int dbId;
     private String title;
     private String[] authors;
     private String cover;
@@ -10,14 +11,26 @@ public class BookEntry {
     private int pageCount;
     private String publisher;
     private String publishedDate;
-
+    private String genre;
+    
+    public int getDbId() {
+        return dbId;
+    }
+    public void setDbId(int dbId) {
+        this.dbId = dbId;
+    }
     public String getTitle() {
         return title;
     }
     public void setTitle(String title) {
         this.title = title;
     }
-
+    public String[] getAuthors() {
+        return authors;
+    }
+    public void setAuthors(String[] authors) {
+        this.authors = authors;
+    }
     public String getCover() {
         return cover;
     }
@@ -48,17 +61,16 @@ public class BookEntry {
     public void setPublishedDate(String publishedDate) {
         this.publishedDate = publishedDate;
     }
-    public String[] getAuthors() {
-        return authors;
+    public String getGenre() {
+        return genre;
     }
-    public void setAuthors(String[] authors) {
-        this.authors = authors;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
     @Override
     public String toString() {
-        return "BookEntry [ISBN=" + ISBN + ", authors=" + Arrays.toString(authors) + ", cover=" + cover + ", pageCount="
-                + pageCount + ", publishedDate=" + publishedDate + ", publisher=" + publisher + ", title=" + title
-                + "]";
+        return "BookEntry [ISBN=" + ISBN + ", authors=" + Arrays.toString(authors) + ", cover=" + cover + ", dbId="
+                + dbId + ", genre=" + genre + ", pageCount=" + pageCount + ", publishedDate=" + publishedDate
+                + ", publisher=" + publisher + ", title=" + title + "]";
     }
-    
 }

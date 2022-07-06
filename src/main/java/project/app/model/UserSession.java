@@ -4,6 +4,8 @@ public class UserSession {
     private int id;
     private String firstName;
     private String role;
+
+    private int bookEntryId;
     
     public UserSession() {
     }
@@ -30,5 +32,13 @@ public class UserSession {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public int getBookEntryId() {
+        return bookEntryId;
+    }
+
+    public void setBookEntryId(int bookEntryId) {
+        this.bookEntryId = bookEntryId;
     }
 }

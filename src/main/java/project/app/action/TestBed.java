@@ -1,5 +1,6 @@
 package project.app.action;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -8,9 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -32,7 +30,7 @@ public class TestBed extends ActionSupport {
 
     public String getImg() {
         try {
-            base64Cover = DBService.getBase64CoverImage(5);
+            base64Cover = DBService.getBase64CoverImage(7);
             return SUCCESS;
         } catch (SQLException e) {
             error = e.toString();
@@ -43,6 +41,7 @@ public class TestBed extends ActionSupport {
 
     public String imgUpload() {
         try {
+            setFileFromURL();
             if(DBService.addTestBed(select, file)) {
                 System.out.println("IN HERE succ 1");
                 return SUCCESS;
@@ -57,17 +56,23 @@ public class TestBed extends ActionSupport {
             return ERROR;
         }
     }
-    
-    public void setUpload(File file) {
-        this.file = file;
-        // try {
-        //     URL url = new URL("https://covers.openlibrary.org/b/id/8739161-M.jpg");
-        //     BufferedImage image = ImageIO.read(url);
-        //     ImageIO.write(image, "jpg", this.file);
-        // } catch (IOException e) {
-        //     // handle IOException
-        // }
+
+    public void setFileFromURL() {
+        try {
+            URL url = new URL("https://covers.openlibrary.org/b/id/8739161-M.jpg");
+            BufferedImage image = ImageIO.read(url);
+            String dummyString = "dummy";
+            file = new File(dummyString);
+            ImageIO.write(image, "jpg", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+    
+    // public void setUpload(File file) {
+    //     this.file = file;
+    //     setFileFromURL();
+    // }
 
     public void setUploadContentType(String contentType) {
         this.contentType = contentType;

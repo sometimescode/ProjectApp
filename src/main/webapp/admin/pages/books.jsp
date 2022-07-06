@@ -25,14 +25,21 @@
       <s:submit value="Search"/>
     </s:form>
     
-    <s:form action="addBook">
+    <s:if test="bookEntryBean.cover != null">
+      Cover: 
+      <img src="${bookEntryBean.cover}"/>
+    </s:if>
+
+    <s:form action="addBookEntry">
       <s:textfield name="bookEntryBean.title" label="Title"/>
       <s:select name="bookEntryBean.authors" label="Author" value="bookEntryBean.authors" list="authorList" multiple="true" size="3" />
       <s:textfield name="bookEntryBean.ISBN" label="ISBN" disabled="true"/> 
+      <s:hidden name="bookEntryBean.ISBN"/>
       <s:textfield name="bookEntryBean.pageCount" label="Page Count"/> 
       <s:textfield name="bookEntryBean.publisher" label="Publisher"/> 
-      <s:textfield name="bookEntryBean.publishedDate" label="Published Date"/> 
-      <s:textfield name="bookEntryBean.cover" label="Cover"/> 
+      <s:textfield name="bookEntryBean.publishedDate" label="Published Date"/>
+      <s:select name="bookEntryBean.genre" label="Genre" emptyOption="true" list="genreList"/>
+      <s:hidden name="bookEntryBean.cover"/>
       <s:submit value="Add"/>
     </s:form>
 

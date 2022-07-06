@@ -26,13 +26,13 @@ PRIMARY KEY (id)
 -- insert into account_roles (title) values ('Regular'), ('Admin');
 
 -- testbed code
-use app;
-create table testbed (
-id int not null auto_increment,
-multipleSelect VARCHAR(100) not null,
-img BLOB,
-PRIMARY KEY (id)
-);
+-- use app;
+-- create table testbed (
+-- id int not null auto_increment,
+-- multipleSelect VARCHAR(100) not null,
+-- img BLOB,
+-- PRIMARY KEY (id)
+-- );
 -- testbed code
 
 create table book_entries (
@@ -40,11 +40,12 @@ id int not null auto_increment,
 title VARCHAR(100) not null,
 authors VARCHAR(500) not null,
 cover BLOB,
-ISBN VARCHAR(13) not null,
+isbn VARCHAR(13) not null,
 page_count INT not null,
 publisher VARCHAR(100) not null,
-published_date DATE not null, 
-copies INT not null default 0,
+published_date DATE not null,
+genre ENUM('Fiction', 'Non-Fiction') not null,
+total_copies INT not null default 0,
 available_copies INT not null default 0,
 PRIMARY KEY (id)
 );
@@ -55,7 +56,7 @@ PRIMARY KEY (id)
 create table book_copies (
 id int not null auto_increment,
 book_entry_id int not null,
-checkout_record_id int not null,
+current_checkout_record_id int,
 checked_out BOOLEAN default false,
 purchase_price int not null,
 available BOOLEAN default true,

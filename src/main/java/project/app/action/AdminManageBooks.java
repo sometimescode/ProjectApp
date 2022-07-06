@@ -1,5 +1,7 @@
 package project.app.action;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -10,10 +12,14 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import project.app.model.BookEntry;
 import project.app.model.ISBNResponse;
+import project.app.service.DBService;
 import project.app.service.OpenLibraryAPIService;
 import project.app.service.SessionService;
 
-public class ManageBooks extends ActionSupport implements SessionAware {
+public class AdminManageBooks extends ActionSupport implements SessionAware {
+    //noted problem = Requires you to SEARCH first to fill some fields
+    //if you refresh the page or go back and the forms are auto-filled
+    //without running SEARCH again, it will produce an error if you add a book
     private Map<String, Object> userSession;
 
     private String queryISBN;
@@ -21,7 +27,8 @@ public class ManageBooks extends ActionSupport implements SessionAware {
     private ISBNResponse ISBNResponseBean;
     private String error;
 
-    private List<String> authorList;
+    private List<String> authorList = new ArrayList<String>();
+    private List<String> genreList = Arrays.asList(new String[] {"Fiction", "Non-Fiction"});
 
     public String execute() {
         String role = (String) userSession.get("role");
@@ -68,8 +75,21 @@ public class ManageBooks extends ActionSupport implements SessionAware {
         }
     }
 
-    public String addBook() {
-        return SUCCESS;
+    public String addBookEntry() {
+        try {
+            int bookEntryId = DBService.addBookEntryGetId(bookEntryBean);
+
+            if(bookEntryId != -1) {
+                userSession.put("bookEntryId", bookEntryId);
+                return SUCCESS;
+            } else {
+                return ERROR;
+            }
+        } catch (SQLException e) {
+            error = e.toString();
+            e.printStackTrace();
+            return ERROR;
+        }
     }
 
     public String getQueryISBN() {
@@ -86,6 +106,14 @@ public class ManageBooks extends ActionSupport implements SessionAware {
 
     public void setAuthorList(List<String> authorList) {
         this.authorList = authorList;
+    }
+
+    public List<String> getGenreList() {
+        return genreList;
+    }
+
+    public void setGenreList(List<String> genreList) {
+        this.genreList = genreList;
     }
 
     public BookEntry getBookEntryBean() {

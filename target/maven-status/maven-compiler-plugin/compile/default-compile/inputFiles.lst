@@ -4,6 +4,7 @@ C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\model
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\model\Account.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\model\ISBNResponseAuthors.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\service\DBService.java
+C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\service\UtilityService.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\action\Register.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\action\Catalog.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\model\UserSession.java
@@ -11,8 +12,10 @@ C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\model
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\service\OpenLibraryAPIService.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\model\BookEntry.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\model\ISBNResponse.java
-C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\action\ManageBooks.java
+C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\action\AdminManageBooks.java
+C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\action\AdminBookCopy.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\model\ISBNResponseCover.java
+C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\action\AdminBookEntry.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\action\TestBed.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\service\SessionService.java
 C:\Users\GVASagent\Desktop\Blayground\ProjectApp\src\main\java\project\app\action\AdminPanel.java

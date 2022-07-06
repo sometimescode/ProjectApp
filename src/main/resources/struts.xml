@@ -64,7 +64,7 @@
             </result>
 		</action>
 
-        <action name="manageBooks" class="project.app.action.ManageBooks">
+        <action name="manageBooks" class="project.app.action.AdminManageBooks">
 			<result name="success">pages/books.jsp</result>
             <result name="error" type="redirectAction">
                 <param name="actionName">index</param>
@@ -72,10 +72,35 @@
             </result>
 		</action>
 
-        <action name="searchBook" class="project.app.action.ManageBooks" method="searchBook">
+        <action name="searchBook" class="project.app.action.AdminManageBooks" method="searchBook">
 			<result name="success">pages/books.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="addBookEntry" class="project.app.action.AdminManageBooks" method="addBookEntry">
+			<result name="success" type="redirectAction">
+                <param name="actionName">bookEntry</param>
+                <param name="namespace">/admin/book</param>
+            </result>
             <result name="error">pages/error.jsp</result>
 		</action>
 	</package>
 
+    <package name="adminBook" namespace="/admin/book" extends="struts-default">
+		<action name="bookEntry" class="project.app.action.AdminBookEntry">
+			<result name="success">pages/bookEntry.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+        <action name="addBookCopyRedirect" class="project.app.action.AdminBookCopy">
+			<result name="success">pages/bookCopy.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+        <action name="addBookCopy" class="project.app.action.AdminBookCopy" method="addBookCopy">
+            <result name="success" type="redirectAction">
+                <param name="actionName">bookEntry</param>
+                <param name="namespace">/admin/book</param>
+            </result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+	</package>
 </struts>
