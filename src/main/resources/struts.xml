@@ -17,7 +17,7 @@
         </action>
 
         <action name="registerUser" class="project.app.action.Register" method="registerUser">
-            <result name="success">pages/register.jsp</result>
+            <result name="success">pages/login.jsp</result>
             <result name="input">pages/register.jsp</result>
             <result name="error">pages/error.jsp</result>
         </action>
@@ -38,6 +38,25 @@
 
         <action name="catalog" class="project.app.action.Catalog" method="execute">
             <result name="success">pages/catalog.jsp</result>
+        </action>
+
+        <action name="book" class="project.app.action.Book" method="execute">
+            <result name="success">pages/book.jsp</result>
+        </action>
+
+        <action name="searchBookFromDB" class="project.app.action.CatalogSearch">
+            <result name="success">pages/searchResults.jsp</result>
+        </action>
+
+        <action name="requestCheckout" class="project.app.action.Book" method="submitCheckoutRequest">
+            <result name="success" type="redirectAction">
+                <param name="actionName">book</param>
+                <param name="namespace">/</param>
+            </result>
+        </action>
+
+        <action name="logout" class="project.app.action.Logout">
+            <result name="success">index.jsp</result>
         </action>
 
         <action name="testBed" class="project.app.action.TestBed">
@@ -72,14 +91,29 @@
             </result>
 		</action>
 
-        <action name="searchBook" class="project.app.action.AdminManageBooks" method="searchBook">
-			<result name="success">pages/books.jsp</result>
+        <action name="addBookRedirect" class="project.app.action.AdminAddBook">
+			<result name="success">pages/addBook.jsp</result>
             <result name="error">pages/error.jsp</result>
 		</action>
 
-        <action name="addBookEntry" class="project.app.action.AdminManageBooks" method="addBookEntry">
+        <action name="searchBookFromOpenLibrary" class="project.app.action.AdminAddBook" method="searchBookFromOpenLibrary">
+			<result name="success">pages/addBook.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="editBookRedirect" class="project.app.action.AdminEditBook">
+			<result name="success">pages/editBook.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="searchBookFromDB" class="project.app.action.AdminEditBook" method="searchBookFromDB">
+			<result name="success">pages/editBook.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="addBookEntry" class="project.app.action.AdminAddBook" method="addBookEntry">
 			<result name="success" type="redirectAction">
-                <param name="actionName">bookEntry</param>
+                <param name="actionName">getBookEntryById</param>
                 <param name="namespace">/admin/book</param>
             </result>
             <result name="error">pages/error.jsp</result>
@@ -87,17 +121,42 @@
 	</package>
 
     <package name="adminBook" namespace="/admin/book" extends="struts-default">
-		<action name="bookEntry" class="project.app.action.AdminBookEntry">
+		<action name="getBookEntryById" class="project.app.action.AdminBookEntry" method="getBookEntryById">
 			<result name="success">pages/bookEntry.jsp</result>
             <result name="error">pages/error.jsp</result>
 		</action>
+
+        <action name="getBookEntryByISBN" class="project.app.action.AdminBookEntry" method="getBookEntryByISBN">
+			<result name="success">pages/bookEntry.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="editBookEntryForm" class="project.app.action.AdminEditBook" method="getBookEntryByISBN">
+			<result name="success">pages/editBookEntry.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="editBookEntryFormById" class="project.app.action.AdminEditBook" method="getBookEntryById">
+			<result name="success">pages/editBookEntry.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+
+        <action name="editBookEntry" class="project.app.action.AdminEditBook" method="editBookEntry">
+            <result name="success" type="redirectAction">
+                <param name="actionName">getBookEntryById</param>
+                <param name="namespace">/admin/book</param>
+            </result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
         <action name="addBookCopyRedirect" class="project.app.action.AdminBookCopy">
 			<result name="success">pages/bookCopy.jsp</result>
             <result name="error">pages/error.jsp</result>
 		</action>
         <action name="addBookCopy" class="project.app.action.AdminBookCopy" method="addBookCopy">
             <result name="success" type="redirectAction">
-                <param name="actionName">bookEntry</param>
+                <param name="actionName">getBookEntryById</param>
                 <param name="namespace">/admin/book</param>
             </result>
             <result name="error">pages/error.jsp</result>

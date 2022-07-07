@@ -13,7 +13,7 @@
     <title>Basic Struts 2 Application - Welcome</title>
   </head>
   <body>
-    <h1>Welcome to Struts 2!</h1>
+    <h1>Welcome to Book Borrowing App</h1>
     
     <a href="<s:url action='register'/>">Register</a>
     <a href="<s:url action='login' />">Log In</a>

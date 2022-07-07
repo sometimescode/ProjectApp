@@ -13,9 +13,12 @@
     <title>Book Information</title>
   </head>
   <body>
+    <s:include value="../../pages/adminMenu.jsp" />
+    <s:property value="#session"/>
     <h1>Book</h1>
 
     <a href="<s:url action='addBookCopyRedirect' namespace='/admin/book'/>">Add Copy</a>
+    <a href="<s:url action='editBookEntryFormById' namespace='/admin/book'/>">Edit Book Details</a>
 
     <s:if test="bookEntryBean.cover != null">
         Cover: 

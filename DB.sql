@@ -34,25 +34,25 @@ PRIMARY KEY (id)
 -- PRIMARY KEY (id)
 -- );
 -- testbed code
-
+drop table book_entries;
 create table book_entries (
 id int not null auto_increment,
 title VARCHAR(100) not null,
 authors VARCHAR(500) not null,
 cover BLOB,
-isbn VARCHAR(13) not null,
+isbn VARCHAR(13) unique not null,
 page_count INT not null,
 publisher VARCHAR(100) not null,
 published_date DATE not null,
 genre ENUM('Fiction', 'Non-Fiction') not null,
-total_copies INT not null default 0,
-available_copies INT not null default 0,
+-- total_copies INT not null default 0,
+-- available_copies INT not null default 0,
 PRIMARY KEY (id)
 );
 -- ff fields not found in javascript model yeT: 
 -- copies INT not null default 0,
 -- available_copies INT not null default 0
-
+drop table book_copies;
 create table book_copies (
 id int not null auto_increment,
 book_entry_id int not null,
@@ -82,4 +82,15 @@ PRIMARY KEY (id),
 FOREIGN KEY(book_copy_id) references book_copies(id)
 );
 
+create table online_checkout_requests (
+id int not null auto_increment,
+requester_id int not null,
+book_to_checkout_id int not null,
+status ENUM('Pending', 'Approved', 'Rejected', 'Canceled') not null default 'Pending',
+reason VARCHAR(500),
+request_date DATE not null default (current_date),
+PRIMARY KEY (id)
+);
 
+
+-- note 9780735211308: null author

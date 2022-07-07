@@ -17,12 +17,13 @@ public class AdminBookEntry extends ActionSupport implements SessionAware {
 
     private BookEntry bookEntryBean;
     private List<BookCopy> bookCopies;
+    private String ISBN;
     private String error;
 
-    public String execute() {
+    public String getBookEntryById() {
         int bookEntryId = (int) userSession.get("bookEntryId");
         try {
-            bookEntryBean = DBService.getBookEntry(bookEntryId);
+            bookEntryBean = DBService.getBookEntryById(bookEntryId);
             bookCopies = DBService.getBookCopies(bookEntryId);
             return SUCCESS;
         } catch (SQLException e) {
@@ -31,10 +32,12 @@ public class AdminBookEntry extends ActionSupport implements SessionAware {
             return ERROR;
         }
     }
-    public String getBookEntry() {
-        int bookEntryId = (int) userSession.get("bookEntryId");
+
+    public String getBookEntryByISBN() {
         try {
-            bookEntryBean = DBService.getBookEntry(bookEntryId);
+            bookEntryBean = DBService.getBookEntryByISBN(ISBN);
+            bookCopies = DBService.getBookCopies(bookEntryBean.getDbId());
+            userSession.put("bookEntryId", bookEntryBean.getDbId());
             return SUCCESS;
         } catch (SQLException e) {
             error = e.toString();
@@ -59,10 +62,18 @@ public class AdminBookEntry extends ActionSupport implements SessionAware {
         this.bookCopies = bookCopies;
     }
 
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(String iSBN) {
+        ISBN = iSBN;
+    }
+
     public String getError() {
         return error;
     }
-
+ 
     public void setError(String error) {
         this.error = error;
     }

@@ -16,6 +16,7 @@ public class Catalog extends ActionSupport implements SessionAware {
 
     private List<BookEntry> fictionBooks;
     private List<BookEntry> nonfictionBooks;
+    private String queryTitle;
     private String error;
     
     public String execute() {
@@ -44,6 +45,14 @@ public class Catalog extends ActionSupport implements SessionAware {
 
     public void setNonfictionBooks(List<BookEntry> nonfictionBooks) {
         this.nonfictionBooks = nonfictionBooks;
+    }
+
+    public String getQueryTitle() {
+        return queryTitle;
+    }
+
+    public void setQueryTitle(String queryTitle) {
+        this.queryTitle = queryTitle;
     }
 
     public String getError() {

@@ -131,9 +131,10 @@ public class DBService {
             connection = connectToDB();
 
             if(connection != null) {
-                String sql = "SELECT id, title, authors, cover\n" +
+                String sql = "SELECT ISBN, title, authors, cover\n" +
                     "FROM book_entries\n" +
                     "WHERE genre = ?\n" + 
+                    "ORDER BY id DESC\n" +
                     "LIMIT 3";
 
                 preparedStatement = connection.prepareStatement(sql);
@@ -142,7 +143,7 @@ public class DBService {
                                 
                 while(rs.next()){  
                     BookEntry bookEntry = new BookEntry();
-                    bookEntry.setDbId(rs.getInt(1));
+                    bookEntry.setISBN(rs.getString(1));
                     bookEntry.setTitle(rs.getString(2));
                     bookEntry.setAuthors(rs.getString(3).split(","));
 
@@ -168,7 +169,217 @@ public class DBService {
          }
     }
 
-    //admin functions
+    //general
+    public static BookEntry getBookEntryByISBN(String ISBN) throws SQLException {
+        error = "";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        BookEntry bookEntry = null;
+        Blob blobCover = null;
+        byte[] byteCover = null;
+
+        try {
+            connection = connectToDB();
+
+            if(connection != null) {
+                String sql = "SELECT id, title, authors, cover, isbn, page_count, publisher, published_date, genre\n" +
+                    "FROM book_entries\n" +
+                    "WHERE isbn = ?";
+
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, ISBN);
+                ResultSet rs = preparedStatement.executeQuery();
+                
+                while(rs.next()){  
+                    bookEntry = new BookEntry();
+                    bookEntry.setDbId(rs.getInt(1));
+                    bookEntry.setTitle(rs.getString(2));
+                    bookEntry.setAuthors(rs.getString(3).split(",")); 
+                    
+                    blobCover = rs.getBlob(4);
+                    byteCover = blobCover.getBytes(1l, (int)blobCover.length());
+                    bookEntry.setCover(new String(Base64.getEncoder().encode(byteCover)));
+
+                    bookEntry.setISBN(rs.getString(5));
+                    bookEntry.setPageCount(rs.getInt(6));
+                    bookEntry.setPublisher(rs.getString(7));
+
+                    java.util.Date utilDate = new java.util.Date(rs.getDate(8).getTime());
+                    DateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
+                    bookEntry.setPublishedDate(dateFormat.format(utilDate));
+
+                    bookEntry.setGenre(rs.getString(9));
+
+                    System.out.println("BOOK ENTRY = " + bookEntry.toString());
+                }
+
+                return bookEntry;
+            } else {
+                error = "DB connection failed";
+                return null;
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+            error = e.toString();
+            return null;  
+         } finally {
+            if (preparedStatement != null) try { preparedStatement.close(); } catch (SQLException ignore) {}
+            if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
+         }
+    }
+
+    public static int getAvailableCopiesCount(int bookEntryId) throws SQLException {
+        error = "";
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            connection = connectToDB();
+
+            if(connection != null) {
+                statement = connection.createStatement();
+                String sql = "SELECT COUNT(*) AS recordCount\n" + 
+                    "FROM BOOK_COPIES\n" + 
+                    "WHERE book_entry_id = '" + bookEntryId + "' " +
+                    "AND available = '1'";
+
+                ResultSet rs = statement.executeQuery(sql);
+
+                rs.next();
+
+                return rs.getInt("recordCount");
+            } else {
+                error = "DB connection failed";
+                return -1;
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+            error = e.toString();
+            return -1;  
+         } finally {
+            if (statement != null) try { statement.close(); } catch (SQLException ignore) {}
+            if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
+         }
+    }
+
+    public static List<BookEntry> searchBookEntriesByTitle(String titleQuery) throws SQLException {
+        error = "";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        Blob blobCover = null;
+        byte[] byteCover = null;
+        List<BookEntry> bookEntries = new ArrayList<BookEntry>();
+
+        try {
+            connection = connectToDB();
+
+            if(connection != null) {
+                String sql = "SELECT ISBN, title, authors, cover\n" +
+                    "FROM book_entries\n" +
+                    "WHERE title LIKE '%" + titleQuery + "%'";
+
+                preparedStatement = connection.prepareStatement(sql);
+                ResultSet rs = preparedStatement.executeQuery();
+                                
+                while(rs.next()){  
+                    BookEntry bookEntry = new BookEntry();
+                    bookEntry.setISBN(rs.getString(1));
+                    bookEntry.setTitle(rs.getString(2));
+                    bookEntry.setAuthors(rs.getString(3).split(","));
+
+                    blobCover = rs.getBlob(4);
+                    byteCover = blobCover.getBytes(1l, (int)blobCover.length());
+                    bookEntry.setCover(new String(Base64.getEncoder().encode(byteCover)));
+
+                    bookEntries.add(bookEntry);
+                    System.out.println("bookentry = " + bookEntry.toString());
+                }
+
+                return bookEntries;
+            } else {
+                error = "DB connection failed";
+                return null;
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+            error = e.toString();
+            return null;  
+         } finally {
+            if (preparedStatement != null) try { preparedStatement.close(); } catch (SQLException ignore) {}
+            if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
+         }
+    }
+
+    //checkout functions
+    public static boolean addCheckoutRequest(int userId, int bookEntryId) throws SQLException {
+        error = "";
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            connection = connectToDB();
+
+            if(connection != null) {
+                statement = connection.createStatement();
+                String sql = "INSERT INTO online_checkout_requests(requester_id, book_to_checkout_id)\n" +
+                    "VALUES('"+userId+"','"+
+                    bookEntryId+"')";
+                statement.executeUpdate(sql);
+
+                return true;
+            } else {
+                error = "DB connection failed";
+                return false;
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+            error = e.toString();
+            return false;  
+         } finally {
+            if (statement != null) try { statement.close(); } catch (SQLException ignore) {}
+            if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
+         }
+    }
+
+    public static boolean hasPendingCheckoutRequest(int userId, int bookEntryId) throws SQLException {
+        error = "";
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            connection = connectToDB();
+
+            if(connection != null) {
+                statement = connection.createStatement();
+                String sql = "SELECT COUNT(*) AS recordCount\n" + 
+                    "FROM online_checkout_requests\n" + 
+                    "WHERE requester_id = '" + userId + "' " +
+                    "AND book_to_checkout_id = '" + bookEntryId + "' " +
+                    "AND status = 'Pending'";
+                
+                System.out.println("SQL QUERY = " + sql);
+                ResultSet rs = statement.executeQuery(sql);
+
+                rs.next();
+
+                int count = rs.getInt("recordCount");
+
+                return count < 1 ? false:true;
+            } else {
+                error = "DB connection failed";
+                return false;
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+            error = e.toString();
+            return false;  
+         } finally {
+            if (statement != null) try { statement.close(); } catch (SQLException ignore) {}
+            if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
+         }
+    }
+
+    //admin only functions
     public static int addBookEntryGetId(BookEntry bookEntry) throws SQLException {
         error = "";
         Connection connection = null;
@@ -228,7 +439,7 @@ public class DBService {
          }
     }
 
-    public static BookEntry getBookEntry(int id) throws SQLException {
+    public static BookEntry getBookEntryById(int id) throws SQLException {
         error = "";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -280,6 +491,47 @@ public class DBService {
             return null;  
          } finally {
             if (preparedStatement != null) try { preparedStatement.close(); } catch (SQLException ignore) {}
+            if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
+         }
+    }
+
+    public static boolean editBookEntry(BookEntry bookEntry) throws SQLException {
+        error = "";
+        Connection connection = null;
+        Statement statement = null;
+        System.out.println("IN HERE!");
+        try {
+            connection = connectToDB();
+
+            if(connection != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
+                LocalDate date = LocalDate.parse(bookEntry.getPublishedDate(), formatter);
+                
+                statement = connection.createStatement();
+                String sql = "UPDATE book_entries\n" + 
+                    "SET title = " + "'" + bookEntry.getTitle() + "'," +
+                    "authors = " + "'" + Arrays.toString(bookEntry.getAuthors()).replace("[", "").replace("]", "") + "'," +
+                    "page_count = " + "'" + bookEntry.getPageCount() + "'," +
+                    "publisher = " + "'" + bookEntry.getPublisher() + "'," +
+                    "published_date = " + "'" + java.sql.Date.valueOf(date) + "'," +
+                    "genre = " + "'" + bookEntry.getGenre() + "'\n" +
+                    "WHERE ( id = '" + bookEntry.getDbId() +"')";
+
+                System.out.println("SQL STATEMENT: " + sql);
+                statement.executeUpdate(sql);
+
+                return true;
+            } else {
+                System.out.println("IN HERE HAHA!");
+                error = "DB connection failed";
+                return false;
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+            error = e.toString();
+            return false;  
+         } finally {
+            if (statement != null) try { statement.close(); } catch (SQLException ignore) {}
             if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
          }
     }

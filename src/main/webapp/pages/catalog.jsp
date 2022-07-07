@@ -13,6 +13,8 @@
     <title>Catalog</title>
   </head>
   <body>
+    <s:include value="menu.jsp" />
+
     <h1>CATALOG!</h1>
     <s:property value="#session"/>
 
@@ -20,13 +22,21 @@
         <a href="<s:url action='dashboard' namespace='/admin'/>">Admin Panel</a>
     </s:if>
 
+    <s:form action="searchBookFromDB">
+      <s:textfield name="queryTitle" label="Title"/> 
+      <s:submit value="Search"/>
+    </s:form>
+
     <h2>Fiction Books</h2>
     <s:iterator value="fictionBooks" status="fictionBooksStatus">
       <p>
+        <s:url action="book" var="urlTag" >
+            <s:param name="ISBN"><s:property value="ISBN"/></s:param>
+        </s:url>
         <s:if test="cover != null">
-          <img src="data:image/jpeg;base64,${cover}"/>
+          <s:a href="%{urlTag}"><img src="data:image/jpeg;base64,${cover}"/></s:a>
         </s:if>
-        ID: <s:property value="dbId"/>
+        ISBN: <s:property value="ISBN"/>
         Title: <s:property value="title"/>
         Authors: <s:property value="authors"/>
       </p>
@@ -37,10 +47,13 @@
     <h2>Non-Fiction Books</h2>
     <s:iterator value="nonfictionBooks" status="nonfictionBooksStatus">
       <p>
+        <s:url action="book" var="urlTag" >
+            <s:param name="ISBN"><s:property value="ISBN"/></s:param>
+        </s:url>
         <s:if test="cover != null">
-          <img src="data:image/jpeg;base64,${cover}"/>
+          <s:a href="%{urlTag}"><img src="data:image/jpeg;base64,${cover}"/></s:a>
         </s:if>
-        ID: <s:property value="dbId"/>
+        ISBN: <s:property value="ISBN"/>
         Title: <s:property value="title"/>
         Authors: <s:property value="authors"/>
       </p>

@@ -13,6 +13,8 @@
     <title>Admin Panel</title>
   </head>
   <body>
+    <s:include value="adminMenu.jsp" />
+
     <h1>admin panel</h1>
     <a href="<s:url action='manageBooks' namespace='/admin'/>">Manage Books</a>
 
