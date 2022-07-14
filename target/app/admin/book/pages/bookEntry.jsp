@@ -18,7 +18,7 @@
     <h1>Book</h1>
 
     <a href="<s:url action='addBookCopyRedirect' namespace='/admin/book'/>">Add Copy</a>
-    <a href="<s:url action='editBookEntry' namespace='/admin/book'/>">Edit Book Details</a>
+    <a href="<s:url action='editBookEntryFormById' namespace='/admin/book'/>">Edit Book Details</a>
 
     <s:if test="bookEntryBean.cover != null">
         Cover: 
@@ -36,12 +36,16 @@
     <hr>
     <h2>Book Copies</h2>
     <s:iterator value="bookCopies" status="bookCopiesStatus">
+      <s:url action="editBookCopyFormById" namespace="/admin/book" var="editTag" >
+        <s:param name="id"><s:property value="dbId"/></s:param>
+      </s:url>
       <p>
         ID: <s:property value="dbId"/>
         CurrentCheckoutRecordId: <s:property value="currentCheckoutRecordId"/>
         Checked Out: <s:property value="checkedOut"/>
         Purchase Price: <s:property value="purchasePrice"/>
         Available: <s:property value="available"/>
+        Action: <s:a href="%{editTag}">Edit Copy Details</s:a>
       </p>
     </s:iterator>
     <!-- Bootstrap Bundle with Popper -->

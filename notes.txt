@@ -1,0 +1,1 @@
+getCheckoutRequestById pulls extra column from book entry. forgot why.

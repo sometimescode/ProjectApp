@@ -6,6 +6,7 @@ public class UserSession {
     private String role;
 
     private int bookEntryId;
+    private int checkoutRequestId;
     
     public UserSession() {
     }
@@ -40,5 +41,13 @@ public class UserSession {
 
     public void setBookEntryId(int bookEntryId) {
         this.bookEntryId = bookEntryId;
+    }
+
+    public int getCheckoutRequestId() {
+        return checkoutRequestId;
+    }
+
+    public void setCheckoutRequestId(int checkoutRequestId) {
+        this.checkoutRequestId = checkoutRequestId;
     }
 }

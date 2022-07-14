@@ -12,12 +12,20 @@
             <result>index.jsp</result>
         </action>
         
+        <action name="loader" class="project.app.action.ajax1" method="loader">
+            <result name="success">pages/s2j.jsp</result>
+        </action>
+
+        <action name="action1" class="project.app.action.ajax1" method="execute">
+            <result name="success">pages/s2j2.jsp</result>
+        </action>
+
         <action name="register" class="project.app.action.Register" method="execute">
             <result name="success">pages/register.jsp</result>
         </action>
 
         <action name="registerUser" class="project.app.action.Register" method="registerUser">
-            <result name="success">pages/register.jsp</result>
+            <result name="success">pages/login.jsp</result>
             <result name="input">pages/register.jsp</result>
             <result name="error">pages/error.jsp</result>
         </action>
@@ -48,6 +56,13 @@
             <result name="success">pages/searchResults.jsp</result>
         </action>
 
+        <action name="requestCheckout" class="project.app.action.Book" method="submitCheckoutRequest">
+            <result name="success" type="redirectAction">
+                <param name="actionName">book</param>
+                <param name="namespace">/</param>
+            </result>
+        </action>
+
         <action name="logout" class="project.app.action.Logout">
             <result name="success">index.jsp</result>
         </action>
@@ -65,6 +80,39 @@
 			<result name="success">pages/testBed.jsp</result>
             <result name="error">pages/error.jsp</result>
 		</action>
+    </package>
+
+    <package name="user" namespace="/user" extends="struts-default">
+        <action name="profile" class="project.app.action.UserProfile" method="execute">
+            <result name="success">pages/dashboard.jsp</result>
+            <result name="error">pages/error.jsp</result>
+        </action>
+
+        <action name="cancelCheckoutRequest" class="project.app.action.UserProfile" method="cancelCheckoutRequest">
+            <result name="success" type="redirectAction">
+                <param name="actionName">profile</param>
+                <param name="namespace">/user</param>
+            </result>
+            <result name="error">pages/error.jsp</result>
+        </action>
+
+       <action name="viewAccount" class="project.app.action.UserAccount" method="execute">
+            <result name="success">pages/accountDetails.jsp</result>
+            <result name="error">pages/error.jsp</result>
+        </action>
+
+        <action name="editAccountForm" class="project.app.action.UserEditAccount" method="execute">
+            <result name="success">pages/editAccountDetails.jsp</result>
+            <result name="error">pages/error.jsp</result>
+        </action>
+
+        <action name="editAccount" class="project.app.action.UserEditAccount" method="editAccount">
+            <result name="success" type="redirectAction">
+                <param name="actionName">viewAccount</param>
+                <param name="namespace">/user</param>
+            </result>
+            <result name="error">pages/error.jsp</result>
+        </action>
     </package>
 
     <package name="admin" namespace="/admin" extends="struts-default">
@@ -94,13 +142,13 @@
             <result name="error">pages/error.jsp</result>
 		</action>
 
-        <action name="editBookRedirect" class="project.app.action.AdminEditBook">
-			<result name="success">pages/editBook.jsp</result>
+        <action name="searchBookRedirect" class="project.app.action.AdminSearchBook">
+			<result name="success">pages/searchBook.jsp</result>
             <result name="error">pages/error.jsp</result>
 		</action>
 
-        <action name="searchBookFromDB" class="project.app.action.AdminEditBook" method="searchBookFromDB">
-			<result name="success">pages/editBook.jsp</result>
+        <action name="searchBookFromDB" class="project.app.action.AdminSearchBook" method="searchBookFromDB">
+			<result name="success">pages/searchBook.jsp</result>
             <result name="error">pages/error.jsp</result>
 		</action>
 
@@ -109,6 +157,16 @@
                 <param name="actionName">getBookEntryById</param>
                 <param name="namespace">/admin/book</param>
             </result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="manageCheckoutRequests" class="project.app.action.AdminManageCheckoutRequests">
+			<result name="success">pages/checkoutRequests.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="manageCheckoutRecords" class="project.app.action.AdminManageCheckoutRecords">
+			<result name="success">pages/checkoutRecords.jsp</result>
             <result name="error">pages/error.jsp</result>
 		</action>
 	</package>
@@ -124,26 +182,96 @@
             <result name="error">pages/error.jsp</result>
 		</action>
 
-        <action name="editBookEntryForm" class="project.app.action.AdminEditBook" method="getBookEntryByISBN">
+        <!-- <action name="editBookEntryForm" class="project.app.action.AdminEditBook" method="getBookEntryByISBN">
+			<result name="success">pages/editBookEntry.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action> -->
+
+        <action name="editBookEntryFormById" class="project.app.action.AdminEditBook" method="getBookEntryById">
 			<result name="success">pages/editBookEntry.jsp</result>
             <result name="error">pages/error.jsp</result>
 		</action>
 
         <action name="editBookEntry" class="project.app.action.AdminEditBook" method="editBookEntry">
-            <result name="success">pages/editBookEntry.jsp</result>
-            <result name="error">pages/error.jsp</result>
-		</action>
-
-        <action name="addBookCopyRedirect" class="project.app.action.AdminBookCopy">
-			<result name="success">pages/bookCopy.jsp</result>
-            <result name="error">pages/error.jsp</result>
-		</action>
-        <action name="addBookCopy" class="project.app.action.AdminBookCopy" method="addBookCopy">
             <result name="success" type="redirectAction">
                 <param name="actionName">getBookEntryById</param>
                 <param name="namespace">/admin/book</param>
             </result>
             <result name="error">pages/error.jsp</result>
 		</action>
+
+        <action name="addBookCopyRedirect" class="project.app.action.AdminAddBookCopy">
+			<result name="success">pages/bookCopy.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="addBookCopy" class="project.app.action.AdminAddBookCopy" method="addBookCopy">
+            <result name="success" type="redirectAction">
+                <param name="actionName">getBookEntryById</param>
+                <param name="namespace">/admin/book</param>
+            </result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="editBookCopyFormById" class="project.app.action.AdminEditBookCopy" method="getBookCopyById">
+            <result name="success">pages/editBookCopy.jsp</result>
+            <result name="error">pages/error.jsp</result>
+        </action>
+
+        <action name="editBookCopy" class="project.app.action.AdminEditBookCopy" method="editBookCopy">
+            <result name="success" type="redirectAction">
+                <param name="actionName">getBookEntryById</param>
+                <param name="namespace">/admin/book</param>
+            </result>
+            <result name="error">pages/error.jsp</result>
+        </action>
 	</package>
+
+    <package name="adminCheckout" namespace="/admin/checkout" extends="struts-default">
+        <action name="checkoutRecordForm" class="project.app.action.AdminCheckoutRecord" method="checkoutRecordForm">
+			<result name="success">pages/checkoutRecord.jsp</result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="approveCheckoutRequest" class="project.app.action.AdminCheckoutRequestAction" method="approveCheckoutRequest">
+            <result name="success" type="redirectAction">
+                <param name="actionName">manageCheckoutRequests</param>
+                <param name="namespace">/admin</param>
+            </result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="rejectCheckoutRequest" class="project.app.action.AdminCheckoutRequestAction" method="rejectCheckoutRequest">
+            <result name="success" type="redirectAction">
+                <param name="actionName">manageCheckoutRequests</param>
+                <param name="namespace">/admin</param>
+            </result>
+            <result name="error">pages/error.jsp</result>
+		</action>
+
+        <action name="addCheckoutRecord" class="project.app.action.AdminAddCheckoutRecord" method="addCheckoutRecord">
+            <result name="success" type="redirectAction">
+                <param name="actionName">manageCheckoutRequests</param>
+                <param name="namespace">/admin</param>
+            </result>
+            <result name="error">pages/error.jsp</result>
+        </action>
+    </package>
+
+    <package name="adminCheckin" namespace="/admin/checkin" extends="struts-default">
+        <action name="checkinCheckoutRecord" class="project.app.action.AdminEditCheckoutRecord" method="checkinCheckoutRecord">
+            <result name="success" type="redirectAction">
+                <param name="actionName">manageCheckoutRecords</param>
+                <param name="namespace">/admin</param>
+            </result>
+            <result name="error">pages/error.jsp</result>
+        </action>
+    </package>
+
+    <package name="adminUserView" namespace="/admin/user" extends="struts-default">
+        <action name="userView" class="project.app.action.AdminUserView" method="execute">
+            <result name="success">pages/view.jsp</result>
+            <result name="error">pages/error.jsp</result>
+        </action>
+    </package>
 </struts>

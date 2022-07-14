@@ -32,9 +32,9 @@ public class Book extends ActionSupport implements SessionAware {
             availableCopies = DBService.getAvailableCopiesCount(bookEntryBean.getDbId());
 
             int userId = (int) userSession.get("id");
-            submittedPendingRequest = DBService.hasPendingCheckoutRequest(userId, bookEntryBean.getDbId());
+            submittedPendingRequest = DBService.hasPendingCheckoutRequestForBook(userId, bookEntryBean.getDbId());
             return SUCCESS;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             error = e.toString();
             e.printStackTrace();
             return ERROR;

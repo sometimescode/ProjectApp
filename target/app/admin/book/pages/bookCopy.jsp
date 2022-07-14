@@ -15,7 +15,7 @@
   <body>
     <s:include value="../../pages/adminMenu.jsp" />
     
-    <h1>Book Copy</h1>
+    <h1>Add Book Copy</h1>
     <s:form action="addBookCopy">
         <s:textfield name="bookCopyBean.purchasePrice" label="Purchase Price"/>
         <s:submit/>

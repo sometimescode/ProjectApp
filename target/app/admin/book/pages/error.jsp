@@ -11,6 +11,6 @@
 
     <p>There is an error: <s:property value="error" /> </p>
 
-    <p><a href="<s:url action='index' />" >Return to home page</a>.</p>
+    <p><a href="<s:url action='index' namespace='/' />" >Return to home page</a>.</p>
   </body>
 </html>

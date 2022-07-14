@@ -36,12 +36,16 @@
     <hr>
     <h2>Book Copies</h2>
     <s:iterator value="bookCopies" status="bookCopiesStatus">
+      <s:url action="editBookCopyFormById" namespace="/admin/book" var="editTag" >
+        <s:param name="id"><s:property value="dbId"/></s:param>
+      </s:url>
       <p>
         ID: <s:property value="dbId"/>
         CurrentCheckoutRecordId: <s:property value="currentCheckoutRecordId"/>
         Checked Out: <s:property value="checkedOut"/>
         Purchase Price: <s:property value="purchasePrice"/>
         Available: <s:property value="available"/>
+        Action: <s:a href="%{editTag}">Edit Copy Details</s:a>
       </p>
     </s:iterator>
     <!-- Bootstrap Bundle with Popper -->

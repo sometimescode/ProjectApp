@@ -24,9 +24,9 @@ public class AdminBookEntry extends ActionSupport implements SessionAware {
         int bookEntryId = (int) userSession.get("bookEntryId");
         try {
             bookEntryBean = DBService.getBookEntryById(bookEntryId);
-            bookCopies = DBService.getBookCopies(bookEntryId);
+            bookCopies = DBService.getBookCopies(bookEntryId, false);
             return SUCCESS;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             error = e.toString();
             e.printStackTrace();
             return ERROR;
@@ -36,10 +36,10 @@ public class AdminBookEntry extends ActionSupport implements SessionAware {
     public String getBookEntryByISBN() {
         try {
             bookEntryBean = DBService.getBookEntryByISBN(ISBN);
-            bookCopies = DBService.getBookCopies(bookEntryBean.getDbId());
+            bookCopies = DBService.getBookCopies(bookEntryBean.getDbId(), false);
             userSession.put("bookEntryId", bookEntryBean.getDbId());
             return SUCCESS;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             error = e.toString();
             e.printStackTrace();
             return ERROR;

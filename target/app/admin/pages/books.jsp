@@ -17,7 +17,7 @@
     
     <h1>Manage Books</h1>
     <a href="<s:url action='addBookRedirect'/>" >Add Book</a>
-    <a href="<s:url action='editBookRedirect'/>" >Edit Book</a>
+    <a href="<s:url action='searchBookRedirect'/>" >Search For Book</a>
 
 
     <!-- Bootstrap Bundle with Popper -->

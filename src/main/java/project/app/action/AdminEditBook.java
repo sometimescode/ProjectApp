@@ -17,9 +17,6 @@ import project.app.service.SessionService;
 public class AdminEditBook extends ActionSupport implements SessionAware {
     private Map<String, Object> userSession;
 
-    private String queryTitle;
-    private List<BookEntry> resultBooks;
-
     private String error;
 
     private String ISBN;
@@ -54,61 +51,33 @@ public class AdminEditBook extends ActionSupport implements SessionAware {
         }
     }
 
-    public String searchBookFromDB() {
-        try {
-            resultBooks = DBService.searchBookEntriesByTitle(queryTitle);
-            System.out.println("BOOKSEARCH");
-            return SUCCESS;
-        } catch (SQLException e) {
-            error = e.toString();
-            e.printStackTrace();
-            return ERROR;
-        }
-    }
+    // public String getBookEntryByISBN() {
+    //     System.out.println("BOOKGET");
+    //     try {
+    //         bookEntryBean = DBService.getBookEntryByISBN(ISBN);
+    //         authorList = Arrays.asList(bookEntryBean.getAuthors());
 
-    public String getBookEntryByISBN() {
-        System.out.println("BOOKGET");
-        try {
-            bookEntryBean = DBService.getBookEntryByISBN(ISBN);
-            authorList = Arrays.asList(bookEntryBean.getAuthors());
-            // bookCopies = DBService.getBookCopies(bookEntryBean.getDbId());
-            userSession.put("bookEntryId", bookEntryBean.getDbId());
-            return SUCCESS;
-        } catch (SQLException e) {
-            error = e.toString();
-            e.printStackTrace();
-            return ERROR;
-        }
-    }
+    //         userSession.put("bookEntryId", bookEntryBean.getDbId());
+    //         return SUCCESS;
+    //     } catch (SQLException | ClassNotFoundException e) {
+    //         error = e.toString();
+    //         e.printStackTrace();
+    //         return ERROR;
+    //     }
+    // }
 
     public String getBookEntryById() {
         System.out.println("BOOKGET");
         try {
             bookEntryBean = DBService.getBookEntryById((int) userSession.get("bookEntryId"));
             authorList = Arrays.asList(bookEntryBean.getAuthors());
-            // bookCopies = DBService.getBookCopies(bookEntryBean.getDbId());
+
             return SUCCESS;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             error = e.toString();
             e.printStackTrace();
             return ERROR;
         }
-    }
-
-    public String getQueryTitle() {
-        return queryTitle;
-    }
-
-    public void setQueryTitle(String queryTitle) {
-        this.queryTitle = queryTitle;
-    }
-
-    public List<BookEntry> getResultBooks() {
-        return resultBooks;
-    }
-
-    public void setResultBooks(List<BookEntry> resultBooks) {
-        this.resultBooks = resultBooks;
     }
 
     public String getISBN() {

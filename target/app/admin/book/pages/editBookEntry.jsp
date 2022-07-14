@@ -13,14 +13,15 @@
     <title>Book Information</title>
   </head>
   <body>
-    <!-- <s:include value="../../pages/adminMenu.jsp" /> -->
-
+    <s:include value="../../pages/adminMenu.jsp" />
+    <s:property value="#session"/>
     <h1>Edit Book</h1>
     <s:if test="bookEntryBean.cover != null">
       Cover: 
       <img src="data:image/jpeg;base64,${bookEntryBean.cover}"/>
     </s:if>
 
+    <s:property value="bookEntryBean"></s:property>
     <s:form action="editBookEntry">
       <s:textfield name="bookEntryBean.title" label="Title"/>
       <s:select name="bookEntryBean.authors" label="Author" value="bookEntryBean.authors" list="authorList" multiple="true" size="3" />
@@ -29,7 +30,7 @@
       <s:textfield name="bookEntryBean.publisher" label="Publisher"/> 
       <s:textfield name="bookEntryBean.publishedDate" label="Published Date"/>
       <s:select name="bookEntryBean.genre" label="Genre" emptyOption="true" list="genreList"/>
-      <s:submit value="Edit"/>
+      <s:submit/>
     </s:form>
 
     <!-- Bootstrap Bundle with Popper -->

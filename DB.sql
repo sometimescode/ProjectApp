@@ -63,34 +63,48 @@ available BOOLEAN default true,
 PRIMARY KEY (id),
 FOREIGN KEY(book_entry_id) references book_entries(id)
 );
+-- current_checkout_record_id; rename to recent_checkout_record_id
+-- available BOOLEAN default true; rename to archived, because checked_out being false already implies availability
 
-create table checkout_records (
-id int not null auto_increment,
-book_copy_id int not null,
-borrower_id int not null,
-checkout_date DATE not null,
-expected_return_date DATE not null,
-actual_return_date DATE,
-checkout_status ENUM('Checked Out', 'Checked In', 'Renewed', 'Lost') not null default 'Checked Out',
-renewed_count INT not null default 0,
-late_return BOOLEAN,
-damaged_return BOOLEAN,
-fine_status ENUM('Paid', 'Unpaid'),
-fine INT,
-record_notes VARCHAR(500),
-PRIMARY KEY (id),
-FOREIGN KEY(book_copy_id) references book_copies(id)
-);
-
+drop table online_checkout_requests;
 create table online_checkout_requests (
 id int not null auto_increment,
 requester_id int not null,
 book_to_checkout_id int not null,
 status ENUM('Pending', 'Approved', 'Rejected', 'Canceled') not null default 'Pending',
-reason VARCHAR(500),
 request_date DATE not null default (current_date),
-PRIMARY KEY (id)
+status_update_date DATE,
+checkout_record_id int,
+PRIMARY KEY (id),
+FOREIGN KEY(requester_id) references accounts(id),
+FOREIGN KEY(book_to_checkout_id) references book_entries(id)
 );
-
+use app;
+drop table checkout_records;
+create table checkout_records (
+id int not null auto_increment,
+book_entry_id int not null,
+book_copy_id int not null,
+borrower_id int not null,
+online_checkout_request_id int,
+checkout_date DATE not null default (current_date),
+expected_return_date DATE not null default (current_date + 7),
+actual_return_date DATE,
+status ENUM('Checked Out', 'Checked In', 'Lost') not null default 'Checked Out',
+fine int not null default 0,
+fine_paid boolean not null default false,
+PRIMARY KEY (id),
+FOREIGN KEY(book_entry_id) references book_entries(id),
+FOREIGN KEY(book_copy_id) references book_copies(id),
+FOREIGN KEY(borrower_id) references accounts(id),
+FOREIGN KEY(online_checkout_request_id) references online_checkout_requests(id)
+);
+-- checkout_status ENUM('Checked Out', 'Checked In', 'Renewed', 'Lost') not null default 'Checked Out',
+-- renewed_count INT not null default 0,
+-- late_return BOOLEAN,
+-- damaged_return BOOLEAN,
+-- fine_status ENUM('Paid', 'Unpaid'),
+-- fine INT,
+-- record_notes VARCHAR(500),
 
 -- note 9780735211308: null author

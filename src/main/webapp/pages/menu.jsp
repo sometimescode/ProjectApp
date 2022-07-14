@@ -8,5 +8,6 @@
     <a href="<s:url action='catalog' namespace='/'/>">Home</a>
     <a href="<s:url action='logout' namespace='/'/>">Logout</a>
     Hello, <s:property value="#session.firstName"/>
+    <a href="<s:url action='profile' namespace='/user'/>">Profile</a>
 </body>
 </html>

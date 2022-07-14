@@ -14,7 +14,8 @@
   </head>
   <body>
     <s:include value="menu.jsp" />
-    
+    <s:property value="submittedPendingRequest"/>
+    <s:property value="#session"/>
     <h1>Book</h1>
     <s:property value="ISBN"/>
     <s:if test="bookEntryBean.cover != null">
@@ -32,6 +33,21 @@
 
     <hr>
     Available Copies: <s:property value="availableCopies"/>
+    
+    <s:if test="availableCopies > 0">
+      <p>For online, you must submit a checkout request the day before the checkout date. The librarian will update you on the status of your request by the end of the day. When approved, it is reserved for you, and you can pick it up from the counter the next day.
+      If you need the book today, please visit the library and checkout from the counter.
+      </p>
+      <s:if test="submittedPendingRequest == true">
+        Request Submitted
+      </s:if>
+      <s:else>
+        <s:form action="requestCheckout">
+          <s:submit value="Request Checkout"/>
+        </s:form>
+      </s:else>
+
+    </s:if>
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
